@@ -3,10 +3,11 @@ import MessageList from './MessageList.jsx';
 import MessageSystem from './MessageSystem.jsx';
 
 
-const Main = () => {
+const Main = (props) => {
+  console.log("Rendering <Main />");
   return(
     <main className="messages">
-      <MessageList />
+      <MessageList messages={props.messages}/>
       <MessageSystem />
     </main>
   )

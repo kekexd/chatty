@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 
-const MessageSystem = () => {
+const MessageSystem = (props) => {
+  console.log("Rendering notice");
   return(
     <div className="message system">
-      Anonymous1 changed their name to nomnom.
+      {props.notices}
     </div>
   )
 }

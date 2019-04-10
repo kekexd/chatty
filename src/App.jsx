@@ -5,7 +5,7 @@ import Main from './components/Main.jsx';
 require('../styles/application.scss');
 
 const data = {
-  currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
+  currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
   messages: [
     { 
       id: 1,
@@ -26,7 +26,9 @@ class App extends Component {
     super(props);
     this.state = {
       username: data.currentUser.name,
-      messages: data.messages
+      messages: data.messages,
+      changeUsernameMessage: "",
+      notices: `Hello, ${data.currentUser.name}!`
     };
   }
 
@@ -42,12 +44,34 @@ class App extends Component {
       this.setState({messages: messages})
     }, 3000);
   }
+  
+  switchUser = e => {
+    if (e.key === 'Enter') {
+      const oldUsername = this.state.username;
+      const newUsername = e.target.value;
+      if(this.state.username!==newUsername){
+        this.setState({
+          notices: oldUsername+" has changed name to "+newUsername,
+          username: newUsername
+        })
+      }
+      e.target.value='';
+    }
+  } 
 
   addMsg = e => {
     if (e.key === 'Enter') {
-      this.setState({messages: [...this.state.messages, {id: Math.floor((Math.random() * 10000) + 4), username:data.currentUser.name, content:e.target.value}]})
+      e.target.value ?
+        this.setState({
+          messages: [...this.state.messages, {
+            id: Math.floor((Math.random() * 10000) + 4), 
+            username:this.state.username, 
+            content:e.target.value
+          }]
+        }) : alert('This message is too short');
       e.target.value='';
     }
+
   }
 
 
@@ -56,8 +80,8 @@ class App extends Component {
     return (    
       <React.Fragment>
         <Nav />
-        <Main messages={this.state.messages}/>
-        <Chatbar username={this.state.username} addMsg={this.addMsg}/>
+        <Main messages={this.state.messages} notices={this.state.notices} />
+        <Chatbar username={this.state.username} switchUser={this.switchUser} addMsg={this.addMsg}/>
       </React.Fragment> 
     );
   }

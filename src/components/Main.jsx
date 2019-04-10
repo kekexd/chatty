@@ -8,7 +8,7 @@ const Main = (props) => {
   return(
     <main className="messages">
       <MessageList messages={props.messages}/>
-      <MessageSystem />
+      <MessageSystem notices={props.notices}/>
     </main>
   )
 }

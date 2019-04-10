@@ -42,15 +42,24 @@ class App extends Component {
 
     this.webSocket.onmessage = (evt) => {
       const msg = JSON.parse(evt.data);
-      this.setState({
-        messages: [...this.state.messages, 
-          {
-            id: msg.id,
-            username: msg.username,
-            content: msg.content
-          }
-        ]
-      })
+      if(msg.type === 'msg') {
+        this.setState({
+          messages: [...this.state.messages, 
+            {
+              id: msg.id,
+              username: msg.username,
+              content: msg.content
+            }
+          ]
+        })
+      }
+
+      if(msg.type === 'notice') {
+        this.setState({
+          //username: msg.newname,
+          notices: msg.content
+        })
+      }
     } 
 
     // setTimeout(() => {
@@ -68,11 +77,16 @@ class App extends Component {
     if (e.key === 'Enter') {
       const oldUsername = this.state.username;
       const newUsername = e.target.value;
-      if(this.state.username!==newUsername){
+      if(oldUsername!==newUsername){
         this.setState({
-          notices: oldUsername+" has changed name to "+newUsername,
           username: newUsername
         })
+        let msg = {
+          content: oldUsername+" has changed name to "+newUsername,
+          newname: newUsername,
+          type: 'notice'
+        }
+        this.webSocket.send(JSON.stringify(msg))
       }
       e.target.value='';
     }
@@ -80,16 +94,7 @@ class App extends Component {
 
   addMsg = e => {
     if (e.key === 'Enter') {
-      // e.target.value ?
-        // this.setState({
-        //   messages: [...this.state.messages, {
-        //     id: Math.floor((Math.random() * 10000) + 4), 
-        //     username:this.state.username, 
-        //     content:e.target.value
-        //   }]
-        // }) : alert('This message is too short');
       let msg ={
-        //id: uuidv1(), 
         username: this.state.username, 
         content: e.target.value,
         type: 'msg'
@@ -98,10 +103,6 @@ class App extends Component {
       e.target.value='';
     }
 
-    // this.webSocket.onmessage = (evt) => {
-    //   console.log(evt.data)
-    
-    // }
   }
 
   

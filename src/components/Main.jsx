@@ -4,7 +4,7 @@ import MessageSystem from './MessageSystem.jsx';
 
 
 const Main = (props) => {
-  console.log("Rendering <Main />");
+  // console.log("Rendering <Main />");
   return(
     <main className="messages">
       <MessageList messages={props.messages}/>

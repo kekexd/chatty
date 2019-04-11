@@ -12,11 +12,13 @@ const data = {
       id: 1,
       username: "Bob",
       content: "Has anyone seen my marbles?",
+      type: 'msg'
     },
     { 
       id: 2,
       username: "Anonymous",
-      content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
+      content: "No, I think you lost them. You lost your marbles Bob. You lost them for good.",
+      type: 'msg'
     }
   ]
 }
@@ -28,7 +30,10 @@ class App extends Component {
     this.state = {
       username: data.currentUser.name,
       messages: data.messages,
-      notices: `Hello, ${data.currentUser.name}!`
+      // notifications: [{
+      //   id: 0,
+      //   content: `Hello, ${data.currentUser.name}!`
+      // }]
     };
   }
   
@@ -42,24 +47,29 @@ class App extends Component {
 
     this.webSocket.onmessage = (evt) => {
       const msg = JSON.parse(evt.data);
-      if(msg.type === 'msg') {
+      //if(msg.type === 'msg') {
         this.setState({
           messages: [...this.state.messages, 
             {
               id: msg.id,
               username: msg.username,
-              content: msg.content
+              content: msg.content,
+              type: msg.type
             }
           ]
         })
-      }
+      //}
 
-      if(msg.type === 'notice') {
-        this.setState({
-          //username: msg.newname,
-          notices: msg.content
-        })
-      }
+      // if(msg.type === 'notification') {
+      //   this.setState({
+      //     notifications: [...this.state.notifications, 
+      //       { 
+      //         id: msg.id,
+      //         content: msg.content
+      //       }
+      //     ]
+      //   })
+      // }
     } 
 
     // setTimeout(() => {
@@ -77,14 +87,14 @@ class App extends Component {
     if (e.key === 'Enter') {
       const oldUsername = this.state.username;
       const newUsername = e.target.value;
-      if(oldUsername!==newUsername){
+      if(oldUsername!== newUsername && newUsername){
         this.setState({
           username: newUsername
         })
         let msg = {
-          content: oldUsername+" has changed name to "+newUsername,
-          newname: newUsername,
-          type: 'notice'
+          username: newUsername,
+          content: oldUsername+" has changed his/her name to "+newUsername,
+          type: 'notification'
         }
         this.webSocket.send(JSON.stringify(msg))
       }
@@ -105,15 +115,13 @@ class App extends Component {
 
   }
 
-  
-
-
 
   render() {
     return (    
       <React.Fragment>
         <Nav />
-        <Main messages={this.state.messages} notices={this.state.notices} />
+        {/* <Main messages={this.state.messages} notifications={this.state.notifications} /> */}
+        <Main messages={this.state.messages} />
         <Chatbar username={this.state.username} switchUser={this.switchUser} addMsg={this.addMsg}/>
       </React.Fragment> 
     );

@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
+import NotificationItem from './NotificationItem.jsx'
 
 const MessageSystem = (props) => {
-  // console.log("Rendering notice");
   return(
-    <div className="message system">
-      {props.notices}
-    </div>
+    props.notifications.map(notification => (
+      <NotificationItem notification={notification} />
+    ))
   )
 }
 

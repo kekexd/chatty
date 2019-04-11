@@ -73,6 +73,11 @@ body {
   font-weight: 700;
 }
 
+.notification {
+  padding: 0 30px;
+  color: tomato;
+}
+
 .navbar {
   background: tomato;
   border-bottom: 1px solid black;

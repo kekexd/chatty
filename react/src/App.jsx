@@ -3,7 +3,6 @@ import Nav from './components/Nav.jsx';
 import Chatbar from './components/Chatbar.jsx';
 import Main from './components/Main.jsx';
 require('../styles/application.scss');
-//const uuidv1 = require('uuid/v1');
 
 const data = {
   currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
@@ -12,16 +11,20 @@ const data = {
       id: 1,
       username: "Bob",
       content: "Has anyone seen my marbles?",
+      color: "tan",
       type: 'msg'
     },
     { 
       id: 2,
       username: "Anonymous",
       content: "No, I think you lost them. You lost your marbles Bob. You lost them for good.",
+      color: "grey",
       type: 'msg'
     }
   ]
 }
+
+const colors = ['#f44197', '#4286f4', '#f4c741', '#cdf441']
 
 
 class App extends Component {
@@ -29,6 +32,7 @@ class App extends Component {
     super(props);
     this.state = {
       username: data.currentUser.name,
+      color: colors[Math.floor(Math.random() * colors.length)],
       messages: data.messages,
       nOfUsers: 0
     };
@@ -50,38 +54,19 @@ class App extends Component {
               id: msg.id,
               username: msg.username,
               content: msg.content,
+              color: msg.color,
               type: msg.type
             }
           ]
         })
       } else if (msg.type === 'nOfUsers') {
-        console.log(msg)
         this.setState({
           nOfUsers: msg.nOfUsers
         })
       }
 
-      // if(msg.type === 'notification') {
-      //   this.setState({
-      //     notifications: [...this.state.notifications, 
-      //       { 
-      //         id: msg.id,
-      //         content: msg.content
-      //       }
-      //     ]
-      //   })
-      // }
     } 
 
-    // setTimeout(() => {
-    //   console.log("Simulating incoming message");
-    //   // Add a new message to the list of messages in the data store
-    //   const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-    //   const messages = this.state.messages.concat(newMessage)
-    //   // Update the state of the app component.
-    //   // Calling setState will trigger a call to render() in App and all child components.
-    //   this.setState({messages: messages})
-    // }, 3000);
   }
   
   switchUser = e => {
@@ -95,6 +80,7 @@ class App extends Component {
         let msg = {
           username: newUsername,
           content: oldUsername+" has changed his/her name to "+newUsername,
+          color: null,
           type: 'notification'
         }
         this.webSocket.send(JSON.stringify(msg))
@@ -108,6 +94,7 @@ class App extends Component {
       let msg ={
         username: this.state.username, 
         content: e.target.value,
+        color: this.state.color,
         type: 'msg'
       }
       this.webSocket.send(JSON.stringify(msg))
@@ -121,7 +108,6 @@ class App extends Component {
     return (    
       <React.Fragment>
         <Nav nOfUsers={this.state.nOfUsers} />
-        {/* <Main messages={this.state.messages} notifications={this.state.notifications} /> */}
         <Main messages={this.state.messages} />
         <Chatbar username={this.state.username} switchUser={this.switchUser} addMsg={this.addMsg}/>
       </React.Fragment> 

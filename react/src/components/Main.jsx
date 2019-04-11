@@ -14,7 +14,7 @@ const Main = ({messages}) => {
 
     <main className="messages">    
       {/* <div> */}
-      <MessageList messages={messages}/>
+      <MessageList messages={messages} />
       {/* </div>
       <div>
         <MessageSystem notifications={props.notifications}/>

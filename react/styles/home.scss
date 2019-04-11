@@ -10,8 +10,6 @@ body {
   background: tomato;
   border-top: 1px solid black;
   bottom: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   left: 0;
   padding: 5px;
@@ -30,20 +28,14 @@ body {
 }
 
 .chatbar-message {
-  -webkit-box-flex: 8;
-      -ms-flex: 8;
-          flex: 8;
+  flex: 8;
 }
 
 .chatbar-username {
-  -webkit-box-flex: 2;
-      -ms-flex: 2;
-          flex: 2;
+  flex: 2;
 }
 
 .message {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   padding: 5px;
 }
@@ -61,21 +53,18 @@ body {
 }
 
 .message-content {
-  -webkit-box-flex: 8;
-      -ms-flex: 8;
-          flex: 8;
+  flex: 8;
 }
 
 .message-username {
-  -webkit-box-flex: 2;
-      -ms-flex: 2;
-          flex: 2;
+  flex: 2;
   font-weight: 700;
 }
 
 .notification {
   padding: 0 30px;
-  color: tomato;
+  font-weight: bold;
+  color: tomato
 }
 
 .navbar {
@@ -100,4 +89,3 @@ body {
   padding: 0 10px;
   text-decoration: none;
 }
-/*# sourceMappingURL=home.css.map */

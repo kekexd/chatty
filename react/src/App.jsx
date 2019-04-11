@@ -30,24 +30,20 @@ class App extends Component {
     this.state = {
       username: data.currentUser.name,
       messages: data.messages,
-      // notifications: [{
-      //   id: 0,
-      //   content: `Hello, ${data.currentUser.name}!`
-      // }]
+      nOfUsers: 0
     };
   }
   
   webSocket = new WebSocket('ws://localhost:3001');
 
   componentDidMount() {
-    //console.log("componentDidMount <App />");
     this.webSocket.onopen = (evt) => {
       this.webSocket.send(JSON.stringify('client is connected to server'));
     }
 
     this.webSocket.onmessage = (evt) => {
       const msg = JSON.parse(evt.data);
-      //if(msg.type === 'msg') {
+      if(msg.type === 'msg' || msg.type === 'notification') {
         this.setState({
           messages: [...this.state.messages, 
             {
@@ -58,7 +54,12 @@ class App extends Component {
             }
           ]
         })
-      //}
+      } else if (msg.type === 'nOfUsers') {
+        console.log(msg)
+        this.setState({
+          nOfUsers: msg.nOfUsers
+        })
+      }
 
       // if(msg.type === 'notification') {
       //   this.setState({
@@ -103,7 +104,7 @@ class App extends Component {
   } 
 
   addMsg = e => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && e.target.value) {
       let msg ={
         username: this.state.username, 
         content: e.target.value,
@@ -119,7 +120,7 @@ class App extends Component {
   render() {
     return (    
       <React.Fragment>
-        <Nav />
+        <Nav nOfUsers={this.state.nOfUsers} />
         {/* <Main messages={this.state.messages} notifications={this.state.notifications} /> */}
         <Main messages={this.state.messages} />
         <Chatbar username={this.state.username} switchUser={this.switchUser} addMsg={this.addMsg}/>

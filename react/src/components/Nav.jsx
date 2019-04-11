@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 
-const Nav = () => {
+const Nav = ({nOfUsers}) => {
   return(
     <nav className="navbar">
-      <a href="/" className="navbar-brand">Chatty</a> 
+      <a href="/" className="navbar-brand">Chatty</a>
+      <div className="nOfUsers">{nOfUsers + ' users online'}</div> 
     </nav>
   )
 }

@@ -42,7 +42,7 @@ wss.on('connection', (ws) => {
 
   ws.on('message', (data) => {
     let msg = JSON.parse(data);
-    console.log(msg)
+    //console.log(msg)
       msg.id = uuidv1();
       wss.broadcast(JSON.stringify(msg))    
   })

@@ -17,7 +17,7 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
-//Broadcast to all
+//function to broadcast to all
 wss.broadcast = (data) => {
   wss.clients.forEach(function each(client) {
     if (client.readyState === WebSocket.OPEN) {
@@ -32,7 +32,8 @@ wss.broadcast = (data) => {
 // the ws parameter in the callback.
 let counter = 0;
 wss.on('connection', (ws) => {
-  counter ++;
+  //increase the counter by 1 whenever a client is connected, and broadcast the updated counter
+  counter ++; 
   console.log(counter + ' Client connected');
   let numberOfUsers = {
     nOfUsers: counter,
@@ -40,16 +41,17 @@ wss.on('connection', (ws) => {
   }
   wss.broadcast(JSON.stringify(numberOfUsers))
 
+  //on receiving a message, assign a random id to the message and broadcast it
   ws.on('message', (data) => {
     let msg = JSON.parse(data);
-    //console.log(msg)
       msg.id = uuidv1();
       wss.broadcast(JSON.stringify(msg))    
   })
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => {
-    counter --;
+    //decrease the counter by 1 whenever a client leaves, and broadcast the updated counter
+    counter --; 
     let numberOfUsers = {
       nOfUsers: counter,
       type: 'nOfUsers'

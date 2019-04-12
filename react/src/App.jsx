@@ -37,7 +37,7 @@ class App extends Component {
       nOfUsers: 0
     };
   }
-  
+  //create a webSocket
   webSocket = new WebSocket('ws://localhost:3001');
 
   componentDidMount() {
@@ -47,6 +47,7 @@ class App extends Component {
 
     this.webSocket.onmessage = (evt) => {
       const msg = JSON.parse(evt.data);
+      //update the state of messages
       if(msg.type === 'msg' || msg.type === 'notification') {
         this.setState({
           messages: [...this.state.messages, 
@@ -59,6 +60,7 @@ class App extends Component {
             }
           ]
         })
+      //update the state of "number of users"
       } else if (msg.type === 'nOfUsers') {
         this.setState({
           nOfUsers: msg.nOfUsers
@@ -69,6 +71,7 @@ class App extends Component {
 
   }
   
+  //method to handle user renaming events (involked in Chatbar)
   switchUser = e => {
     if (e.key === 'Enter') {
       const oldUsername = this.state.username;
@@ -89,6 +92,7 @@ class App extends Component {
     }
   } 
 
+  //method to handle new message (involked in Chatbar)
   addMsg = e => {
     if (e.key === 'Enter' && e.target.value) {
       let msg ={
@@ -102,11 +106,10 @@ class App extends Component {
     }
   }
 
-
   render() {
     return (    
       <React.Fragment>
-        <Nav nOfUsers={this.state.nOfUsers} />
+        <Nav nOfUsers={this.state.nOfUsers} /> 
         <Main messages={this.state.messages} />
         <Chatbar username={this.state.username} switchUser={this.switchUser} addMsg={this.addMsg}/>
       </React.Fragment> 

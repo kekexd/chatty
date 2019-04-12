@@ -7,7 +7,7 @@ body {
 }
 
 .chatbar {
-  background: tomato;
+  background: rgb(252, 228, 93);
   border-top: 1px solid black;
   bottom: 0;
   display: flex;
@@ -64,12 +64,11 @@ body {
 .notification {
   padding: 0 30px;
   font-style: italic;
-  color: tomato
+  color: tomato;
 }
 
 .navbar {
-  background: tomato;
-  border-bottom: 1px solid black;
+  background: rgb(252, 228, 93);
   height: 60px;
   left: 0;
   padding: 0 10px;

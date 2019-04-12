@@ -4,8 +4,9 @@ import Chatbar from './components/Chatbar.jsx';
 import Main from './components/Main.jsx';
 require('../styles/application.scss');
 
+//dummy data
 const data = {
-  currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
+  currentUser: {name: "Anonymous"}, 
   messages: [
     { 
       id: 1,
@@ -25,7 +26,6 @@ const data = {
 }
 
 const colors = ['#f44197', '#4286f4', '#f4c741', '#cdf441']
-
 
 class App extends Component {
   constructor(props) {

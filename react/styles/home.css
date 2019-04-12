@@ -7,7 +7,7 @@ body {
 }
 
 .chatbar {
-  background: tomato;
+  background: #fce45d;
   border-top: 1px solid black;
   bottom: 0;
   display: -webkit-box;
@@ -80,8 +80,7 @@ body {
 }
 
 .navbar {
-  background: tomato;
-  border-bottom: 1px solid black;
+  background: #fce45d;
   height: 60px;
   left: 0;
   padding: 0 10px;

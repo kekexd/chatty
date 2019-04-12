@@ -107,4 +107,8 @@ body {
   line-height: 60px;
   font-size: 20px;
 }
+
+img {
+  max-width: 60%;
+}
 /*# sourceMappingURL=home.css.map */

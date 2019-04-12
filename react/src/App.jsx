@@ -100,7 +100,6 @@ class App extends Component {
       this.webSocket.send(JSON.stringify(msg))
       e.target.value='';
     }
-
   }
 
 
